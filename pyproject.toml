@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "DRF Log Tester"
+version = "1.0.0"
+description = ""
+authors = ["kkamikoon <rootsik1221@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^4.2.2"
+djangorestframework = "^3.14.0"
+drf-yasg = "^1.21.6"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
