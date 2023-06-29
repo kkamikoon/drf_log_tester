@@ -10,6 +10,7 @@ python = "^3.10"
 django = "^4.2.2"
 djangorestframework = "^3.14.0"
 drf-yasg = "^1.21.6"
+djangorestframework-simplejwt = "^5.2.2"
 
 [build-system]
 requires = ["poetry-core"]
