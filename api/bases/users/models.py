@@ -8,6 +8,8 @@ from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, PermissionsMixin
 )
 
+from rest_framework.authtoken.models import Token
+
 
 class UserManager(BaseUserManager):
     def _create_user(self, email, password, **extra_fields):
@@ -80,3 +82,23 @@ class User(AbstractBaseUser, PermissionsMixin):
     def set_password(self, raw_password):
         super(User, self).set_password(raw_password)
         self.last_password_change = timezone.now()
+
+
+class ExpiringToken(Token):
+    """Extend Token to add an expired method."""
+    updated = models.DateTimeField(auto_now=True)
+
+    def expired(self):
+        """Return boolean indicating token expiration."""
+        now = timezone.now()
+
+        if self.expiry and self.updated < now - timezone.timedelta(seconds=self.expiry):
+            return True
+        return False
+
+    @property
+    def expiry(self):
+        if self.user.is_staff:
+            return None
+
+        return settings.EXPIRING_TOKEN_LIFESPAN

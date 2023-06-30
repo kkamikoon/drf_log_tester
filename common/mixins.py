@@ -1,9 +1,9 @@
 from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import mixins, GenericViewSet
 
 
-class ListModelMixin(object):
-    def list(self: GenericViewSet, request, *args, **kwargs):
+class ListModelMixin(mixins.ListModelMixin, GenericViewSet):
+    def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
 
         page = self.paginate_queryset(queryset)
@@ -15,23 +15,24 @@ class ListModelMixin(object):
         return Response(serializer.data)
 
 
-class RetrieveModelMixin(object):
+class RetrieveModelMixin(mixins.RetrieveModelMixin, GenericViewSet):
+
     def retrieve(self: GenericViewSet, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=200)
 
 
-class CreateModelMixin(object):
+class CreateModelMixin(mixins.CreateModelMixin, GenericViewSet):
     def perform_create(self: GenericViewSet, serializer):
         serializer.save()
 
 
-class UpdateModelMixin(object):
+class UpdateModelMixin(mixins.UpdateModelMixin, GenericViewSet):
     def perform_update(self: GenericViewSet, serializer):
         serializer.save()
 
 
-class DestroyModelMixin(object):
+class DestroyModelMixin(mixins.DestroyModelMixin, GenericViewSet):
     def perform_delete(self: GenericViewSet, instance):
         instance.delete()
