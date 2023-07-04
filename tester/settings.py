@@ -188,14 +188,14 @@ LOGGING = {
     'formatters': {
         # Log text format definition
         'simple': {
-            'format': '[%(asctime)s] %(levelname)s|%(name)s|%(message)s',
+            'format': '[%(levelname)s %(asctime)s pid: %(process)d] %(message)s',
             'datefmt': '%Y-%m-%d %H:%M:%S',
         },
     },
     'handlers': {
         # File save type
         'file': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
             'backupCount': 5,
             'encoding': 'UTF-8',
@@ -211,8 +211,8 @@ LOGGING = {
     'loggers': {
         # Logger DEBUG < INFO < WARNING < ERROR < CRITICAL
         'django.server': {
-            'handlers': ['file'],
-            'level': 'INFO',
+            'handlers': ('file', 'console',),
+            'level': 'DEBUG',
             'propagate': False,
         }
     }
