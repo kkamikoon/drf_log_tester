@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
-ROOT_URLCONF = 'tester.urls'
+ROOT_URLCONF = 'app.tester.urls'
 
 AUTH_USER_MODEL = 'users.User'
 
