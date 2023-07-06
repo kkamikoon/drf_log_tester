@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+    hostname: log_tester
+    volumes:
+      - ./logs/:/app/server/logs/
+    ports:
+      - '10000:8080'
+    environment:
+      DJANGO_SUPERUSER_USERNAME: "kkamikoon"
+      DJANGO_SUPERUSER_PASSWORD: "kkamikoon"
+      DJANGO_SUPERUSER_EMAIL: "rootsik1221@gmail.com"
+    networks:
+      default:
+        ipv4_address: 88.88.88.11
+
+networks:
+  default:
+    external:
+      name: log_tester

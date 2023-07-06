@@ -1,9 +1,9 @@
 from rest_framework import viewsets
 
-from app.api.bases.users.models import User
-from app.api.versioned.v1.users.serializers import UserSerializer, UserRetrieveSerializer
+from api.bases.users.models import User
+from api.versioned.v1.users.serializers import UserSerializer, UserRetrieveSerializer
 
-from app.common.mixins import (
+from common.mixins import (
     ListModelMixin,
     CreateModelMixin,
     RetrieveModelMixin,

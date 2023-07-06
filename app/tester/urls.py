@@ -22,7 +22,12 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-directory = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'app/../api', 'versioned')
+from common.statics import static
+
+
+directory = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'api', 'versioned')
+
+print(directory)
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -52,11 +57,12 @@ for _path, _, _files, in os.walk(directory):
 
         api_urls.append(path(f"{version}/", include(_include)))
 
+print(f"[+] API-URLS : {api_urls}")
 
 urlpatterns = [
     path('api/', include(api_urls)),
     path('admin/', admin.site.urls),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
     version = "v1"
