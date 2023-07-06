@@ -27,8 +27,6 @@ from common.statics import static
 
 directory = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'api', 'versioned')
 
-print(directory)
-
 schema_view = get_schema_view(
     openapi.Info(
         title="Test Dummy API",
@@ -56,8 +54,6 @@ for _path, _, _files, in os.walk(directory):
         _include = 'api.versioned.{}.{}.urls'.format(version, api_name)
 
         api_urls.append(path(f"{version}/", include(_include)))
-
-print(f"[+] API-URLS : {api_urls}")
 
 urlpatterns = [
     path('api/', include(api_urls)),

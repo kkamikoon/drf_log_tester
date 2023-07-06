@@ -21,6 +21,8 @@ services:
       DJANGO_SUPERUSER_USERNAME: "kkamikoon"
       DJANGO_SUPERUSER_PASSWORD: "kkamikoon"
       DJANGO_SUPERUSER_EMAIL: "rootsik1221@gmail.com"
+    depends_on:
+      - elasticsearch
     networks:
       default:
         ipv4_address: 88.88.88.2
@@ -109,6 +111,7 @@ services:
       context: elk/extensions/filebeat/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
+    command: filebeat -e -strict.perms=false
     volumes:
       # Filebeat send to Logstash
       # - elk/extensions/filebeat/filebeat-logstash.yml:/usr/share/filebeat/filebeat.yml:ro
