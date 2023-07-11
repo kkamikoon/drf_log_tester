@@ -2,12 +2,12 @@ filebeat.inputs:
   type: log
   enabled: true
   paths:
-    - /usr/share/filebeat/app/logs/*
+    - /usr/share/filebeat/logs/app/logs/*
   tags: 'tester'
 
 filebeat.config.modules:
   path: ${path.config}/modules.d/*.yml
-  reload.enabled: false
+  enabled: true
 
 setup.ilm.enabled: false
 setup.template.overwrite: true
@@ -18,8 +18,9 @@ setup.template:
 
 output.logstash:
   hosts: ['logstash:5044']
-  loadbalance: true
   indices:
     - index: "tester"
       when.contains:
         tags: "tester"
+setup.kibana:
+  host: "http://kibana:5601"

@@ -15,6 +15,7 @@ services:
     hostname: log_tester
     volumes:
       - ./app/logs/:/app/server/logs/
+      - ./app/db.sqlite3:/app/server/db.sqlite3
     ports:
       - '10000:8080'
     environment:
@@ -114,16 +115,18 @@ services:
       context: elk/extensions/filebeat/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
+    environment:
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
     command: filebeat -e -strict.perms=false
     volumes:
       # Filebeat send to Logstash
       # - elk/extensions/filebeat/filebeat-logstash.yml:/usr/share/filebeat/filebeat.yml:ro
       # Filebeat send to Elasticsearh
-      - /etc/localtime:/etc/localtime:ro
       - ./elk/extensions/filebeat/filebeat-elasticsearch.yml:/usr/share/filebeat/filebeat.yml:ro
       - ./elk/extensions/filebeat/data:/usr/share/filebeat/data
       - ./elk/extensions/filebeat/logs:/usr/share/filebeat/logs
       - ./app/logs/:/usr/share/filebeat/logs/app/logs/
+      - /etc/localtime:/etc/localtime:ro
     networks:
       default:
         ipv4_address: 88.88.88.7
