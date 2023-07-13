@@ -1,29 +1,33 @@
+name: filebeat
+
 filebeat.inputs:
-  type: log
-  enabled: true
+- type: filestream
+  id: test-id
   paths:
-    - /usr/share/filebeat/logs/app/logs/*
+    - "/usr/share/filebeat/logs/app/logs/*"
   tags: 'tester'
 
-filebeat.config.modules:
-  path: ${path.config}/modules.d/*.yml
-  enabled: true
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
 
 setup.ilm.enabled: false
 setup.template.overwrite: true
 setup.template:
   name: 'tester'
-  pattern: 'tester'
+  pattern: 'tester*'
   enabled: true
 
 output.elasticsearch:
-  hosts: ['http://elasticsearch:9200']
-  username: elastic
-  password: ${ELASTIC_PASSWORD}
-  ssl.verification_mode: "none"
+  hosts: [ http://elasticsearch:9200 ]
+  username: filebeat_internal
+  password: ${FILEBEAT_INTERNAL_PASSWORD}
   indices:
     - index: "tester"
       when.contains:
         tags: "tester"
-setup.kibana:
-  host: "http://kibana:5601"
+
+http:
+  enabled: true
+  host: 0.0.0.0

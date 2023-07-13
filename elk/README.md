@@ -133,7 +133,7 @@ browser and use the following (default) credentials to log in:
 * password: *changeme*
 
 *:information_source: Upon the initial startup, the `elastic`, `logstash_internal` and `kibana_system` Elasticsearch
-users are intialized with the values of the passwords defined in the [`.env`](../.env) file (_"changeme"_ by default). The
+users are intialized with the values of the passwords defined in the [`.env`](.env) file (_"changeme"_ by default). The
 first one is the [built-in superuser][builtin-users], the other two are used by Kibana and Logstash respectively to
 communicate with Elasticsearch. This task is only performed during the _initial_ startup of the stack. To change users'
 passwords _after_ they have been initialized, please refer to the instructions in the next section.*
@@ -251,7 +251,7 @@ $ docker-compose down -v
 
 ### Version selection
 
-To use a different version of the core Elastic components, simply change the version number inside the [`.env`](../.env)
+To use a different version of the core Elastic components, simply change the version number inside the [`.env`](.env)
 file. If you are upgrading an existing stack, remember to rebuild all container images using the `docker-compose build`
 command.
 

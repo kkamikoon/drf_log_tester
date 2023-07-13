@@ -18,6 +18,8 @@
 
 ## Set-Up
 
+### ELK
+
 docker-compose 내에 세팅된 docker network를 셋업해주도록 합니다.
 ```console
 $ ./docker-network.sh
@@ -25,45 +27,23 @@ $ ./docker-network.sh
 
 Elasticsearch 셋업을 위해 docker-compose를 이용하여 elasticsearch를 구동합니다. 
 ```console
-$ docker-compose up elasticsearch
+$ docker-compose -f ./elk/docker-compose.yml up elasticsearch --build
 ```
 
 이후 셋업 빌드를 진행합니다.
 ```console
-$ docker-compose up setup
+$ docker-compose -f ./elk/docker-compose.yml up setup --build
 ```
 
-셋업 완료 후 elasticsearch 내의 비밀번호를 수정해줘야 합니다. 이를 위해 다음 명령어를 실행하여 적절한 비밀번호를 생성해줍니다.
+setup 빌드가 완료되었으면 ELK와 filebeat 로그를 재시작해줍니다. 
 ```console
-$ docker-compose exec -T elasticsearch bin/elasticsearch-setup-passwords auto --batch
-
-[ Output example ]
-Changed password for user apm_system
-PASSWORD apm_system = 7cFNjNwjQ0cRgGdeTqAw
-
-Changed password for user kibana_system
-PASSWORD kibana_system = l9iaccl0uUexUt0kCfy6
-
-Changed password for user kibana
-PASSWORD kibana = l9iaccl0uUexUt0kCfy6
-
-Changed password for user logstash_system
-PASSWORD logstash_system = bHCsOGLUWxKz63MbgXC4
-
-Changed password for user beats_system
-PASSWORD beats_system = 2IAzlFoyUGFVxz009Quj
-
-Changed password for user remote_monitoring_user
-PASSWORD remote_monitoring_user = jCK1xWmnjv9TDP97Ww52
-
-Changed password for user elastic
-PASSWORD elastic = o1naYvKFM8WtGGADGPFA
+$ docker-compose -f ./elk/docker-compose.yml stop && docker-compose -f ./elk/docker-compose.yml up -d
 ```
 
-위 데이터를 `.env` 파일 내의 PASSWORD와 교체해주도록 합니다.
-
+### APP
+테스트를 위한 DRF 웹 앱을 실행하기 위해 다음과 같은 명령어로 docker를 실행시켜줄 수 있습니다.
 ```console
-docker-compose down && docker-compose up -d
+$ docker-compose -f ./app/docker-compose.yml up -d
 ```
 
 ## Reset
